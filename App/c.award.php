@@ -5,14 +5,16 @@ namespace UnitCommander;
 use Exception;
 use GuzzleHttp\Client;
 
-class Rank extends Model
-{
+class Award extends Model {
+
     public function __construct()
     {
         try {
-            parent::__construct('ranks');
+            parent::__construct('awards');
         } catch (Exception $exception) {
             return "Error: " . $exception->getMessage();
         }
     }
+
+
 }

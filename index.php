@@ -2,8 +2,8 @@
 
 include('App/includes.php');
 
-$rank = new \UnitCommander\Rank();
-
+$ranks = new \UnitCommander\Rank();
+$awards = new \UnitCommander\Award();
 ?>
 
 <!doctype html>
@@ -18,16 +18,35 @@ $rank = new \UnitCommander\Rank();
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet"/>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.0.0/mdb.min.css" rel="stylesheet"/>
 </head>
-<body>
-    <div class="container">
-        <h1>UC API</h1>
-            <?php
-                foreach($rank->all as $r)
-                    echo $r->name . '<br />';
-                echo '<br /><br />';
-                var_dump($rank->single('major'));
-            ?>
+<body class="bg-dark">
+<div class="container">
+    <h1>UC API</h1>
+    <div class="row">
+        <?php
+        foreach ($ranks->all as $rank) {
+            $r = $ranks->single($rank->id);
+            echo '<div class="col-lg-3 col-xs-12">';
+            echo '<div class="card mb-4 shadow">';
+            echo '<div class="card-header">'. $r->name . '</div>';
+            echo '<div class="card-body text-center">';
+                echo '<img src="'.$r->image.'" style="max-width:20%"><br /><br />';
+                echo '<p>' . $r->description . '</p>';
+            echo '</div>';
+            echo '</div></div>';
+        }
+        foreach($ranks->allGroups as $group) {
+            echo '<div class="col-lg-3 col-xs-12">';
+            echo '<div class="card mb-4 shadow">';
+            echo '<div class="card-header">'. $group->name . '</div>';
+            echo '<div class="card-body"><p>';
+            foreach($group->ranks as $rank)
+                echo $rank->name . ', ';
+            echo '</p></div>';
+            echo '</div></div>';
+        }
+        ?>
     </div>
+</div>
 <script
         type="text/javascript"
         src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.0.0/mdb.min.js"

@@ -1,3 +1,5 @@
 <?php
 
-define('UC_LINK', 'http://unit.purplesmoke.info');
+use GuzzleHttp\Client;
+
+define('UC_LINK', 'https://uc.12thaib.com');
