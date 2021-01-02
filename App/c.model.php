@@ -21,11 +21,11 @@ class Model {
             ]);
             foreach ($this->all() as $item)
                 $this->all[$item->id] = $item;
-            if($groups = $this->allGroups() && is_array($this->allGroups()))
+            if($groups = $this->allGroups())
                 foreach ($this->allGroups() as $group)
                     $this->allGroups[] = $group;
         } catch (Exception $exception) {
-            return "Error: " . $exception->getMessage();
+            echo $exception->getMessage();
         }
     }
 
@@ -34,15 +34,17 @@ class Model {
         try {
             return json_decode((string)$this->request->get($this->type)->getBody());
         } catch (Exception $exception) {
-            return 'Error: ' . $exception->getCode();
+            throw new Exception($exception->getMessage() . $exception->getCode());
         }
     }
 
     protected function allGroups() {
         try {
-            return json_decode((string)$this->request->get($this->type.'/groups')->getBody());
+            $groups = $this->request->get($this->type.'/groups');
+            if($groups->getStatusCode() === 200)
+                return json_decode((string)$groups->getBody());
         } catch (Exception $exception) {
-            return 'Error: ' . $exception->getCode();
+            return null;
         }
     }
 
@@ -52,7 +54,7 @@ class Model {
             return $this->getSingle($item);
         } elseif (is_string($item)) {
             foreach ($this->all as $i)
-                if (strtolower($i->name) == strtolower($item) || strtolower($i->prefix) == strtolower($item))
+                if (strtolower($i->name) == strtolower($item))
                     return $this->getSingle($i->id);
         } else
             return null;
@@ -63,7 +65,7 @@ class Model {
         try {
             return json_decode((string)$this->request->get($this->type.'/'.$item)->getBody());
         } catch (Exception $exception) {
-            return "Error: " . $exception->getCode();
+            throw new Exception($exception->getMessage() . $exception->getCode());
         }
     }
 

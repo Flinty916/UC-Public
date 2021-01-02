@@ -4,6 +4,12 @@ include('App/includes.php');
 
 $ranks = new \UnitCommander\Rank();
 $awards = new \UnitCommander\Award();
+$training = new \UnitCommander\Training();
+$units = new \UnitCommander\Unit();
+$positions = new \UnitCommander\Position();
+
+var_dump($positions->all);
+
 ?>
 
 <!doctype html>
@@ -21,16 +27,17 @@ $awards = new \UnitCommander\Award();
 <body class="bg-dark">
 <div class="container">
     <h1>UC API</h1>
+    <h3>Ranks</h3>
     <div class="row">
         <?php
         foreach ($ranks->all as $rank) {
-            $r = $ranks->single($rank->id);
+//            $r = $ranks->single($rank->id);
             echo '<div class="col-lg-3 col-xs-12">';
             echo '<div class="card mb-4 shadow">';
-            echo '<div class="card-header">'. $r->name . '</div>';
+            echo '<div class="card-header">'. $rank->name . '</div>';
             echo '<div class="card-body text-center">';
-                echo '<img src="'.$r->image.'" style="max-width:20%"><br /><br />';
-                echo '<p>' . $r->description . '</p>';
+                echo '<img src="'.$rank->image.'" style="max-width:20%"><br /><br />';
+                echo '<p>' . $rank->description . '</p>';
             echo '</div>';
             echo '</div></div>';
         }
@@ -41,6 +48,31 @@ $awards = new \UnitCommander\Award();
             echo '<div class="card-body"><p>';
             foreach($group->ranks as $rank)
                 echo $rank->name . ', ';
+            echo '</p></div>';
+            echo '</div></div>';
+        }
+        ?>
+    </div>
+    <h3>Awards</h3>
+    <div class="row">
+        <?php
+        foreach ($awards->all as $award) {
+            echo '<div class="col-lg-3 col-xs-12">';
+            echo '<div class="card mb-4 shadow">';
+            echo '<div class="card-header">'. $award->name . '</div>';
+            echo '<div class="card-body text-center">';
+            echo '<img src="'.$award->image.'" style="max-width:20%"><br /><br />';
+            echo '<p>' . $award->description . '</p>';
+            echo '</div>';
+            echo '</div></div>';
+        }
+        foreach($awards->allGroups as $group) {
+            echo '<div class="col-lg-3 col-xs-12">';
+            echo '<div class="card mb-4 shadow">';
+            echo '<div class="card-header">'. $group->name . '</div>';
+            echo '<div class="card-body"><p>';
+            foreach($group->awards as $award)
+                echo $award->name . ', ';
             echo '</p></div>';
             echo '</div></div>';
         }
