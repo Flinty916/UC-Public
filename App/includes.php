@@ -8,3 +8,4 @@ include('c.award.php');
 include('c.training.php');
 include('c.unit.php');
 include('c.position.php');
+include('c.profile.php');
